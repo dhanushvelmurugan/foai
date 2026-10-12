@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InterviewSense AI - Symbolic AI & Rule-Based Mock Interview Assistant</title>
+  
+  <!-- Tailwind CSS CDN for modern responsive utility classes -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfeff',
+              500: '#06b6d4',
+              600: '#0891b2',
+              700: '#0e7490',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#090d16] text-slate-100 min-h-screen flex flex-col font-sans">
+
+  <!-- Navigation / Header -->
+  <header class="border-b border-slate-800/80 bg-slate-950/70 backdrop-blur sticky top-0 z-30 px-4 lg:px-8 py-3.5 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+        <span class="text-xl">🎙️</span>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+          InterviewSense <span class="text-xs font-semibold px-2 py-0.5 rounded bg-cyan-950 border border-cyan-700/60 text-cyan-400">Symbolic AI</span>
+        </h1>
+        <p class="text-xs text-slate-400 hidden sm:block">Rule-Based Expert System (100% Deterministic &bull; Zero Machine Learning)</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button id="howItWorksBtn" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 transition flex items-center gap-1.5">
+        <span>🧠</span> <span class="hidden md:inline">How AI Works (No ML)</span><span class="md:hidden">Rules</span>
+      </button>
+      <button id="customQuestionsBtn" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-300 transition flex items-center gap-1.5">
+        <span>⚙️</span> <span class="hidden md:inline">Question Studio</span><span class="md:hidden">Studio</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
+
+    <!-- ========================================== -->
+    <!-- SCREEN 1: INTERVIEW SETUP & CONFIGURATION  -->
+    <!-- ========================================== -->
+    <section id="setupScreen" class="w-full max-w-3xl mx-auto space-y-6">
+      
+      <!-- Welcome Card -->
+      <div class="glass-panel rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+        <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-950/70 text-cyan-400 border border-cyan-800/60 mb-4">
+          <span>⚡</span> Explainable Expert System &bull; Instant Feedback
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Master Your Next Tech & Leadership Interview
+        </h2>
+        <p class="text-sm sm:text-base text-slate-400 mt-2 leading-relaxed">
+          InterviewSense uses classical <strong>Symbolic AI</strong>, knowledge ontologies, and rule-based NLP to analyze your technical accuracy, STAR storytelling structure, speech pacing, and filler words—completely offline without black-box machine learning.
+        </p>
+
+        <!-- Configuration Form -->
+        <div class="mt-8 space-y-6 border-t border-slate-800/80 pt-6">
+          
+          <!-- Track Selector -->
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+              Select Interview Track
+            </label>
+            <select id="trackSelector" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition">
+              <option value="swe" selected>💻 Software Engineering (OOP, Web Architecture, SQL & Scalability)</option>
+              <option value="behavioral">🤝 Behavioral & Leadership (STAR Method, Conflict, Ownership)</option>
+              <option value="data">📊 Data Science & Analytics (Data Wrangling, SQL, Pipelines)</option>
+              <option value="pm">🎯 Product Management (Backlog Prioritization, RICE, MVPs)</option>
+              <option value="custom">⚙️ Custom User-Defined Track (Configured in Studio)</option>
+            </select>
+          </div>
+
+          <!-- Difficulty & Question Count Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Target Difficulty Level
+              </label>
+              <select id="diffSelector" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition">
+                <option value="all" selected>All Difficulties</option>
+                <option value="Junior">Junior (Core Concepts)</option>
+                <option value="Mid">Mid-Level (Trade-offs & Implementation)</option>
+                <option value="Senior">Senior (Architecture & Edge Cases)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Question Session Length
+              </label>
+              <select id="countSelector" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition">
+                <option value="3" selected>3 Questions (Quick Practice Drill - ~8 min)</option>
+                <option value="5">5 Questions (Comprehensive Mock - ~15 min)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Hardware / Modality Toggles -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <label class="flex items-center gap-3 p-3.5 bg-slate-900/80 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-700 transition">
+              <input type="checkbox" id="voiceToggle" checked class="w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500 bg-slate-800 border-slate-700">
+              <div class="text-xs">
+                <span class="font-semibold text-white block">Voice Synthesizer & Speech Recognition</span>
+                <span class="text-slate-400">Interviewer speaks and captures your speech</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 bg-slate-900/80 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-700 transition">
+              <input type="checkbox" id="webcamToggle" checked class="w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500 bg-slate-800 border-slate-700">
+              <div class="text-xs">
+                <span class="font-semibold text-white block">Candidate Webcam Preview</span>
+                <span class="text-slate-400">Simulate real video interview environment</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Launch Button -->
+          <div class="pt-4">
+            <button id="startInterviewBtn" class="w-full btn-primary py-4 px-6 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-cyan-500/25">
+              <span>🚀</span> Start AI Mock Interview Session
+            </button>
+            <p class="text-center text-xs text-slate-400 mt-2">
+              Microphone and camera permissions will be requested in the browser. Zero video/audio is saved or uploaded.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 2: ACTIVE INTERVIEW CHAMBER         -->
+    <!-- ========================================== -->
+    <section id="interviewScreen" class="w-full space-y-6 hidden">
+      
+      <!-- Top Status Header -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 p-4 rounded-xl">
+        <div class="flex items-center gap-2">
+          <span id="currentTrackBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-800">
+            Software Engineering
+          </span>
+          <span id="currentDiffBadge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+            Mid Level
+          </span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span id="questionProgressText" class="text-xs font-semibold text-slate-400">
+            Question 1 of 3
+          </span>
+
+          <!-- Countdown Timer -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400">Time:</span>
+            <span id="timerDisplay" class="font-mono font-bold text-sm text-cyan-400">01:30</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Timer Bar -->
+      <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+        <div id="timerBar" class="h-full bg-cyan-500 transition-all duration-300 rounded-full" style="width: 0%"></div>
+      </div>
+
+      <!-- Simulation Chamber: Interviewer Box + Candidate Box -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Interviewer Persona Box -->
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between relative overflow-hidden min-h-[260px]">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="relative">
+                <div id="speakingPulse" class="w-10 h-10 rounded-full bg-cyan-500/30 absolute -inset-1 pointer-events-none"></div>
+                <div id="interviewerAvatar" class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-lg text-white font-bold transition relative z-10">
+                  🤖
+                </div>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-white">AI Evaluator</h3>
+                <span class="text-[11px] text-cyan-400 font-medium">Symbolic Rule Engine</span>
+              </div>
+            </div>
+
+            <button id="replayVoiceBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700 flex items-center gap-1 transition">
+              <span>🔊</span> Replay Voice
+            </button>
+          </div>
+
+          <!-- Question Prompt Text -->
+          <div class="my-4 bg-slate-950/70 p-4 rounded-xl border border-slate-800/80">
+            <p id="questionPrompt" class="text-base sm:text-lg font-semibold text-slate-100 leading-snug">
+              Loading question...
+            </p>
+          </div>
+
+          <!-- Hints Accordion -->
+          <div>
+            <div class="flex justify-between items-center">
+              <button id="toggleHintBtn" class="text-xs text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1 transition">
+                <span>💡</span> Need a hint?
+              </button>
+            </div>
+            <div id="hintBox" class="mt-2 text-xs bg-cyan-950/40 border border-cyan-800/50 text-cyan-200 p-3 rounded-lg hidden">
+              <ul id="hintText" class="list-disc list-inside space-y-1"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Candidate Video & Speech Box -->
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between relative overflow-hidden min-h-[260px]">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span class="text-xs font-semibold text-white">Candidate Preview</span>
+            </div>
+
+            <button id="cameraToggleBtn" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white px-2.5 py-1 rounded-md transition flex items-center gap-1">
+              <span>📹</span> Cam On
+            </button>
+          </div>
+
+          <!-- Video Viewport / Avatar Placeholder -->
+          <div class="w-full h-44 sm:h-48 bg-slate-950 rounded-xl overflow-hidden relative flex items-center justify-center border border-slate-800">
+            <video id="candidateVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
+            
+            <div id="videoPlaceholder" class="text-center p-4 hidden">
+              <div class="w-14 h-14 rounded-full bg-slate-800 text-2xl flex items-center justify-center mx-auto mb-2 text-slate-400">
+                👤
+              </div>
+              <p class="text-xs text-slate-400">Camera disabled or unavailable</p>
+            </div>
+          </div>
+
+          <!-- Live Speech Mic Indicator -->
+          <div class="mt-2 flex items-center justify-between text-xs text-slate-400">
+            <div id="recordStatus" class="flex items-center">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-slate-500 mr-2"></span>
+              Mic Inactive
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="liveWordCount" class="font-mono text-slate-300">0 words</span>
+              <span id="liveFillerBadge" class="px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-800 text-slate-400 border border-slate-700">0 Fillers</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Response Transcript Box -->
+      <div class="glass-panel rounded-2xl p-5 border border-slate-800 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <span>📝</span> Your Live Response Transcript
+            <span class="text-[11px] font-normal text-slate-400 lowercase">(speak aloud or edit manually)</span>
+          </label>
+
+          <div class="flex items-center gap-2">
+            <button id="recordToggleBtn" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white transition flex items-center gap-1.5 cursor-pointer">
+              <span>🎤</span> Speak
+            </button>
+          </div>
+        </div>
+
+        <textarea id="candidateTranscript" rows="4" placeholder="Speak into your microphone or type your complete answer here. The Symbolic AI engine will analyze your technical vocabulary, STAR framework, filler words, and delivery pacing..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 leading-relaxed font-sans"></textarea>
+
+        <!-- Bottom Action Bar -->
+        <div class="flex items-center justify-between pt-2">
+          <button id="skipQuestionBtn" class="text-xs text-slate-400 hover:text-rose-400 transition font-medium px-3 py-2 rounded-lg hover:bg-slate-900">
+            Skip Question
+          </button>
+
+          <button id="submitAnswerBtn" class="btn-primary text-sm font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 cursor-pointer shadow-lg shadow-cyan-500/20">
+            <span>Evaluate & Next</span> <span>→</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SCREEN 3: COMPREHENSIVE SCORECARD REPORT   -->
+    <!-- ========================================== -->
+    <section id="resultsScreen" class="w-full space-y-6 hidden">
+      
+      <!-- Top Banner Summary -->
+      <div class="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800 relative overflow-hidden shadow-2xl">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex items-center gap-5 text-center sm:text-left">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-tr from-cyan-600 to-indigo-600 flex flex-col items-center justify-center border-2 border-cyan-400/40 shadow-xl shadow-cyan-500/20">
+              <span id="overallGrade" class="text-3xl sm:text-4xl font-extrabold text-white">A</span>
+              <span id="overallScore" class="text-xs font-semibold text-cyan-200">88/100</span>
+            </div>
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800 mb-1.5">
+                <span>✓</span> Evaluation Complete
+              </div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Interview Readiness Scorecard</h2>
+              <p id="scoreSummaryText" class="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
+                Strong performance across conceptual accuracy and fluent delivery.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5 w-full md:w-auto">
+            <button id="printReportBtn" class="flex-1 md:flex-none btn-secondary text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5">
+              <span>🖨️</span> Print / Save PDF
+            </button>
+            <button id="retakeInterviewBtn" class="flex-1 md:flex-none btn-primary text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5">
+              <span>🔄</span> Retake Interview
+            </button>
+          </div>
+        </div>
+
+        <!-- 3-Pillar Telemetry Strip -->
+        <div class="grid grid-cols-3 gap-3 mt-6 pt-6 border-t border-slate-800 text-center">
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 text-xs block">Words Spoken</span>
+            <span id="totalWordsSpoken" class="text-lg font-bold text-white">0</span>
+          </div>
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 text-xs block">Average Pace</span>
+            <span id="avgPacingWpm" class="text-lg font-bold text-cyan-400">0 WPM</span>
+          </div>
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 text-xs block">Total Fillers</span>
+            <span id="totalFillersCount" class="text-lg font-bold text-amber-400">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar Chart & Diagnostic Visualization -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Radar Chart Panel -->
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col items-center justify-center">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">5-Axis Competency Radar</h3>
+          <div id="radarChartContainer" class="w-full flex justify-center items-center py-2">
+            <!-- Rendered by charts.js -->
+          </div>
+          <p class="text-[11px] text-slate-400 text-center mt-1">
+            Calculated via deterministic rubrics without neural approximations.
+          </p>
+        </div>
+
+        <!-- Metric Explanation Guide -->
+        <div class="lg:col-span-2 glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Symbolic AI Evaluation Rubric</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                <span class="font-bold text-cyan-300 block mb-1">🎯 Conceptual Accuracy (40-55%)</span>
+                <p class="text-slate-400 leading-relaxed">
+                  Evaluated using Porter-stemmed keyword ontologies and bounded Levenshtein distance against domain knowledge bases.
+                </p>
+              </div>
+
+              <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                <span class="font-bold text-indigo-300 block mb-1">⭐ Behavioral Structure (25-35%)</span>
+                <p class="text-slate-400 leading-relaxed">
+                  Deterministic regex and lexical transition markers verifying Situation, Task, Action, and Measurable Result (STAR).
+                </p>
+              </div>
+
+              <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                <span class="font-bold text-emerald-300 block mb-1">🎙️ Delivery & Eloquence (20%)</span>
+                <p class="text-slate-400 leading-relaxed">
+                  Words-Per-Minute (WPM) bracket evaluation and filler word density penalty (penalizing &gt;2% density).
+                </p>
+              </div>
+
+              <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                <span class="font-bold text-amber-300 block mb-1">💪 Confidence & Tone (15-20%)</span>
+                <p class="text-slate-400 leading-relaxed">
+                  Rule-based lexical polarity measuring proactive action verbs against hedging/uncertainty terms.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+            <span>Deterministic Model: Zero Hallucination Risk</span>
+            <span class="text-cyan-400 font-medium">100% Explainable AI (XAI)</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Question Breakdown Accordion -->
+      <div class="space-y-4">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>📋</span> Question-by-Question Diagnostic Breakdown
+        </h3>
+        <div id="questionsAccordion">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: HOW IT WORKS (SYMBOLIC AI / NO ML)  -->
+  <!-- ========================================== -->
+  <div id="howItWorksModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700 max-w-2xl w-full rounded-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🧠</span>
+          <h3 class="text-lg font-bold text-white">How This AI Works Without Machine Learning</h3>
+        </div>
+        <button id="closeModalBtn" class="text-slate-400 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+
+      <div class="text-xs sm:text-sm text-slate-300 space-y-4 leading-relaxed">
+        <div class="bg-cyan-950/40 border border-cyan-800/60 p-4 rounded-xl text-cyan-200">
+          <h4 class="font-bold text-cyan-300 text-sm mb-1">What is Symbolic AI (GOFAI)?</h4>
+          <p>
+            In Artificial Intelligence, <strong>Symbolic AI (Good Old-Fashioned AI)</strong> represents knowledge through explicit rules, ontologies, and logical inference rather than probabilistic neural networks. Expert systems, chess engines (like Deep Blue), and grammar checkers are classic examples of symbolic AI.
+          </p>
+        </div>
+
+        <h4 class="font-bold text-white text-sm">Key Algorithmic Components Used:</h4>
+        
+        <ol class="list-decimal list-inside space-y-2 text-slate-300">
+          <li>
+            <strong>Deterministic Tokenizer & Porter Stemmer:</strong> Normalizes candidate speech by reducing words to morphological roots (e.g. <em>"encapsulating"</em> &rarr; <em>"encapsul"</em>) without neural embeddings.
+          </li>
+          <li>
+            <strong>Knowledge Ontology & Concept Coverage Engine:</strong> Evaluates answers against hierarchical concept trees with weighted technical synonyms and bounded Levenshtein edit distance for typo tolerance.
+          </li>
+          <li>
+            <strong>STAR Behavioral Finite State Grammar:</strong> Regular expression automata that identify transitional linguistic markers for Situation, Task, Action, and Result in behavioral narratives.
+          </li>
+          <li>
+            <strong>Prosody & Delivery Telemetry:</strong> Real-time Words-Per-Minute (WPM) calculation against an optimal 115-160 WPM cadence, plus regex-based filler word density analysis.
+          </li>
+          <li>
+            <strong>Lexicon-Based Assertiveness & Tone Analysis:</strong> Symbolic polarity scoring that rewards proactive engineering verbs while penalizing tentative hedging language.
+          </li>
+        </ol>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-2">Advantages Over Machine Learning:</h4>
+          <ul class="list-disc list-inside space-y-1 text-slate-400 text-xs">
+            <li><strong>100% Explainable:</strong> Candidates and interviewers see the exact rules triggered with zero black-box obscurity.</li>
+            <li><strong>Zero Hallucination:</strong> Never fabricates facts or invents invalid feedback.</li>
+            <li><strong>Zero Cloud Costs / Offline:</strong> Runs entirely in the client's browser with 0 external API calls.</li>
+            <li><strong>Deterministic & Repeatable:</strong> The exact same answer produces the exact same score every time.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-2 text-right">
+        <button onclick="document.getElementById('howItWorksModal').classList.add('hidden')" class="btn-primary text-xs font-bold px-5 py-2.5 rounded-xl cursor-pointer">
+          Got It, Back to Practice
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CUSTOM QUESTION STUDIO              -->
+  <!-- ========================================== -->
+  <div id="customQuestionsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700 max-w-xl w-full rounded-2xl p-6 max-h-[90vh] overflow-y-auto space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">⚙️</span>
+          <h3 class="text-base font-bold text-white">Custom Question Studio</h3>
+        </div>
+        <button id="closeCustomModalBtn" class="text-slate-400 hover:text-white text-xl font-bold cursor-pointer">&times;</button>
+      </div>
+
+      <p class="text-xs text-slate-400">
+        Add custom interview questions and define the exact target keywords and scoring rubrics for the Symbolic AI engine.
+      </p>
+
+      <form id="addCustomQForm" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Interview Question:</label>
+          <input type="text" id="customQText" required placeholder="e.g., What is Dependency Injection and why is it useful?" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:ring-1 focus:ring-cyan-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Domain Track:</label>
+            <select id="customQTrack" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white">
+              <option value="swe">Software Engineering</option>
+              <option value="behavioral">Behavioral (STAR Method)</option>
+              <option value="data">Data Science</option>
+              <option value="pm">Product Management</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Difficulty:</label>
+            <select id="customQDiff" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white">
+              <option value="Junior">Junior</option>
+              <option value="Mid" selected>Mid-Level</option>
+              <option value="Senior">Senior</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Target Keywords / Synonyms (comma separated):</label>
+          <input type="text" id="customQKeywords" required placeholder="e.g., inversion of control, decoupling, unit testing, mock, constructor injection" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:ring-1 focus:ring-cyan-500">
+          <span class="text-[10px] text-slate-500 block mt-0.5">The engine will match these keywords and their word stems.</span>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-300 mb-1">Model Benchmark Answer (Optional):</label>
+          <textarea id="customQIdeal" rows="3" placeholder="Provide the ideal answer for reference..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:ring-1 focus:ring-cyan-500"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="document.getElementById('customQuestionsModal').classList.add('hidden')" class="btn-secondary px-4 py-2 rounded-lg text-xs font-medium cursor-pointer">
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary px-4 py-2 rounded-lg text-xs font-bold cursor-pointer">
+            Add to Knowledge Base
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-4 px-6 text-center text-xs text-slate-500">
+    InterviewSense AI &bull; Built with Symbolic AI, Rule-Based NLP & Web Speech API &bull; 100% Client-Side
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/questions.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
